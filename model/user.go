@@ -39,7 +39,7 @@ func (um *UserModel) Login(hp string, password string) (User, error) {
 
 func (um *UserModel) AddTask(hp string, task ToDoList) error {
 	newTask := ToDoList{
-		UserHP:      task.UserHP,
+		UserHP:      hp,
 		TaskName:    task.TaskName,
 		DueDate:     task.DueDate,
 		Description: task.Description,
@@ -53,7 +53,7 @@ func (um *UserModel) AddTask(hp string, task ToDoList) error {
 
 func (um *UserModel) UpdateTask(hp string, updateTask ToDoList) (ToDoList, error) {
 	var task ToDoList
-	if err := um.Connection.Where("userhp = ?", updateTask.UserHP).First(&task).Error; err != nil {
+	if err := um.Connection.Where("userhp = ?", hp).First(&task).Error; err != nil {
 		return task, err
 	}
 

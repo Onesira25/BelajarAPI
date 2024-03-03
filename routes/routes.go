@@ -11,7 +11,7 @@ import (
 func InitRoute(c *echo.Echo, ctl user.UserController) {
 	c.POST("/register", ctl.Register())
 	c.POST("/login", ctl.Login())
-	c.POST("/alltask", ctl.AddTask(), echojwt.WithConfig(echojwt.Config{
+	c.POST("/addtask", ctl.AddTask(), echojwt.WithConfig(echojwt.Config{
 		SigningKey: []byte(config.JWTSECRET),
 	}))
 	c.PUT("/update", ctl.UpdateTask(), echojwt.WithConfig(echojwt.Config{
