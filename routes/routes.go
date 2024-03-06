@@ -24,7 +24,7 @@ func userRoute(c *echo.Echo, ctl user.UserController) {
 
 func todoRoute(c *echo.Echo, tc todo.TodoController) {
 	c.POST("/addtask", tc.AddTask(), withJWTConfig())
-	c.PUT("/updatetask", tc.UpdateTask(), withJWTConfig())
+	c.PUT("/updatetask/:todoID", tc.UpdateTask(), withJWTConfig())
 	c.GET("/alltask", tc.SeeAllMyTask(), withJWTConfig())
 
 }

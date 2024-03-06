@@ -4,6 +4,7 @@ import (
 	"BelajarAPI/helper"
 	"BelajarAPI/middlewares"
 	"BelajarAPI/model/todo"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -58,10 +59,19 @@ func (tc *TodoController) AddTask() echo.HandlerFunc {
 
 func (tc *TodoController) UpdateTask() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		var id = c.Param("id")
-		todoid, err := strconv.Atoi(id)
+		var id = c.Param("todoID")
+		todoID, err := strconv.Atoi(id)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest,
+				helper.ResponseFormat(http.StatusBadRequest, "data yang dikirmkan tidak sesuai", nil))
+		}
 
 		var hpFromToken = middlewares.DecodeToken(c.Get("user").(*jwt.Token))
+
+		if hpFromToken == "" {
+			log.Println("error decode token:", "hp tidak ditemukan")
+			return c.JSON(http.StatusUnauthorized, helper.ResponseFormat(http.StatusUnauthorized, "tidak dapat mengakses fitur ini", nil))
+		}
 
 		var input ToDoUpdate
 		err = c.Bind(&input)
@@ -87,7 +97,7 @@ func (tc *TodoController) UpdateTask() echo.HandlerFunc {
 		inputProcess.DueDate = input.DueDate
 		inputProcess.Description = input.Description
 
-		updatedTask, err := tc.Model.UpdateTask(hpFromToken, uint(todoid), inputProcess)
+		updatedTask, err := tc.Model.UpdateTask(hpFromToken, uint(todoID), inputProcess)
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError,
 				helper.ResponseFormat(http.StatusInternalServerError, "terjadi kesalahan saat update data", nil))
