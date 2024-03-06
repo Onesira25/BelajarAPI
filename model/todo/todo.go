@@ -1,6 +1,10 @@
 package todo
 
-import "gorm.io/gorm"
+import (
+	"errors"
+
+	"gorm.io/gorm"
+)
 
 type ToDoList struct {
 	gorm.Model
@@ -22,8 +26,13 @@ func (tm *ToDoModel) AddTask(task ToDoList) (ToDoList, error) {
 }
 
 func (tm *ToDoModel) UpdateTask(hp string, todoid uint, updateTask ToDoList) (ToDoList, error) {
-	if err := tm.Connection.Where("user_hp = ? AND id = ?", hp, todoid).Updates(&updateTask).Error; err != nil {
+	qry := tm.Connection.Where("user_hp = ? AND id = ?", hp, todoid).Updates(&updateTask)
+	if err := qry.Error; err != nil {
 		return ToDoList{}, err
+	}
+
+	if qry.RowsAffected < 1 {
+		return ToDoList{}, errors.New("no data affected")
 	}
 
 	return updateTask, nil
