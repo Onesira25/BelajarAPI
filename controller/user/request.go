@@ -10,3 +10,8 @@ type RegisterRequest struct {
 	Name     string `json:"name" form:"name" validate:"required,min=3"`
 	Password string `json:"password" form:"password" validate:"required,alphanum"`
 }
+
+type UpdateRequest struct {
+	Name     string `json:"name" form:"name" validate:"required,min=3"`
+	Password string `json:"password" form:"password" validate:"required,alphanum"`
+}
