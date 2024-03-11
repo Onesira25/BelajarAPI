@@ -2,14 +2,14 @@ package routes
 
 import (
 	"BelajarAPI/config"
-	"BelajarAPI/controller/todo"
-	"BelajarAPI/controller/user"
+	todo "BelajarAPI/features/todo"
+	user "BelajarAPI/features/user"
 
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 )
 
-func InitRoute(c *echo.Echo, ctl user.UserController, tc todo.TodoController) {
+func InitRoute(c *echo.Echo, ctl user.UserController, tc todo.ToDoController) {
 	userRoute(c, ctl)
 	todoRoute(c, tc)
 }
@@ -22,7 +22,7 @@ func userRoute(c *echo.Echo, ctl user.UserController) {
 	c.GET("/myprofile", ctl.MyProfile(), withJWTConfig())
 }
 
-func todoRoute(c *echo.Echo, tc todo.TodoController) {
+func todoRoute(c *echo.Echo, tc todo.ToDoController) {
 	c.POST("/addtask", tc.AddTask(), withJWTConfig())
 	c.PUT("/updatetask/:todoID", tc.UpdateTask(), withJWTConfig())
 	c.GET("/alltask", tc.SeeAllMyTask(), withJWTConfig())
