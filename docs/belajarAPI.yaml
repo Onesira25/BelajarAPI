@@ -126,6 +126,7 @@ paths:
                 data:
                   hp: "089512345678"
                   name: "khomsin"
+                  password: "ZeAgtlUke_z2@Hjasiw111AS"
                 message: "Successfully Get MyProfile"
         '400':
           $ref: '#/components/responses/400'
@@ -151,8 +152,10 @@ paths:
                 data:
                   - hp: "0895123455678"
                     name: "khomsin"
+                    password: "ZeAgtlUke_z2@Hjasiw111AS"
                   - hp: "0895123456789"
                     name: "ariseno"
+                    password: "1ArExT1Ar@oksl@-$asdwFF"
                 message: "Successfully Get All Users"
         '400':
           $ref: '#/components/responses/400'
