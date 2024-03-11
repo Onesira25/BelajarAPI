@@ -275,24 +275,24 @@ paths:
               duedate: "nanti malam"
               desc: "wajib wwcd !!"
       responses:
-      '200':
-        description: "Task Updated Successfully"
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ApiDataResponse'
-            example:
-              code: 200
-              data:
-                userhp: "089512345678"
-                taskname: "mabar pubg mobile"
-                duedate: "nanti malam"
-                desc: "wajib wwcd !!"
-              message: "success update task"
-      '400':
-        $ref: '#/components/responses/400'
-      '500':
-        $ref: '#/components/responses/500'
+        '200':
+          description: "Task Updated Successfully"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiDataResponse'
+              example:
+                code: 200
+                data:
+                  userhp: "089512345678"
+                  taskname: "mabar pubg mobile"
+                  duedate: "nanti malam"
+                  desc: "wajib wwcd !!"
+                message: "success update task"
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
   /alltask:
     get:
       tags:
