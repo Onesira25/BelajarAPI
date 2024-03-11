@@ -18,10 +18,21 @@ func New(db *gorm.DB) todo.ToDoModel {
 }
 
 func (tm *model) AddTask(hp string, task todo.ToDo) (todo.ToDo, error) {
-	if err := tm.connection.Create(&task).Error; err != nil {
+	var inputProcess = ToDo{
+		UserHP:      hp,
+		TaskName:    task.TaskName,
+		DueDate:     task.DueDate,
+		Description: task.Description,
+	}
+	if err := tm.connection.Create(&inputProcess).Error; err != nil {
 		return todo.ToDo{}, err
 	}
-	return task, nil
+
+	return todo.ToDo{
+		UserHP:      hp,
+		TaskName:    inputProcess.TaskName,
+		DueDate:     inputProcess.DueDate,
+		Description: inputProcess.Description}, nil
 }
 
 func (tm *model) UpdateTask(hp string, todoid uint, updateTask todo.ToDo) (todo.ToDo, error) {

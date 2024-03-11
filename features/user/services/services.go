@@ -99,6 +99,12 @@ func (s *service) UpdateUser(token *jwt.Token, updateData user.User) error {
 		return err
 	}
 
+	newPassword, err := s.pm.HashPassword(updateData.Password)
+	if err != nil {
+		return errors.New(helper.ServiceGeneralError)
+	}
+	updateData.Password = newPassword
+
 	err = s.model.UpdateUser(decodeHP, updateData)
 	if err != nil {
 		return errors.New(helper.ServerGeneralError)

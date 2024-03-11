@@ -77,7 +77,7 @@ func InitSQL(c AppConfig) *gorm.DB {
 		return nil
 	}
 
-	db.AutoMigrate(&user.User{}, &todo.ToDoList{})
+	db.AutoMigrate(&user.User{}, &todo.ToDo{})
 
 	return db
 }
