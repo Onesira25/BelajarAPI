@@ -236,7 +236,7 @@ paths:
                   taskname: "mabar pubg mobile"
                   duedate: "nanti malam"
                   desc: "wajib wwcd !!"
-                message: "berhasil menambahkan kegiatan"
+                message: "success add task"
         '400':
           $ref: '#/components/responses/400'
         '500':
