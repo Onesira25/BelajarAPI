@@ -172,19 +172,12 @@ paths:
           application/json:
             schema:
               type: object
-              required:
-                - hp
-                - name
-                - password
               properties:
-                hp:
-                  type: string
                 name:
                   type: string
                 password:
                   type: string
             example:
-              hp: "089512345678"
               name: "khomsin"
               password: "pass123"
       responses:
@@ -319,7 +312,7 @@ paths:
                     taskname: "mabar pubg mobile"
                     duedate: "nanti malam"
                     desc: "wajib wwcd !!"
-                  - userhp: "0895123456789"
+                  - userhp: "089512345678"
                     taskname: "mabar mobile legend"
                     duedate: "sehabis main pubg"
                     desc: "minimal naik mitik"
