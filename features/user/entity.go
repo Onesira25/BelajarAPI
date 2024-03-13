@@ -1,6 +1,8 @@
 package user
 
 import (
+	"encoding/json"
+
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 )
@@ -31,7 +33,7 @@ type UserService interface {
 type User struct {
 	HP       string
 	Name     string
-	Password string
+	Password string `json:"password,omitempty"`
 }
 
 type Login struct {
@@ -48,4 +50,11 @@ type Register struct {
 type UpdateUser struct {
 	Name     string `json:"name" form:"name" validate:"required,min=3"`
 	Password string `json:"-" form:"password" validate:"required,alphanum"`
+}
+
+func (u User) MarshalJSON() ([]byte, error) {
+	type user User
+	x := user(u)
+	x.Password = ""
+	return json.Marshal(x)
 }
