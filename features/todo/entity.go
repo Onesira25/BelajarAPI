@@ -3,6 +3,7 @@ package todo
 import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 )
 
 type ToDoController interface {
@@ -24,6 +25,7 @@ type TodoServices interface {
 }
 
 type ToDo struct {
+	gorm.Model
 	UserHP      string
 	TaskName    string
 	DueDate     string
