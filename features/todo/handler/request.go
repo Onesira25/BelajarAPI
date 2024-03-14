@@ -1,4 +1,4 @@
-package todo
+package handler
 
 type ToDoRequest struct {
 	TaskName    string `json:"taskname" form:"taskname" validate:"required"`

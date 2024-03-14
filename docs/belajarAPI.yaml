@@ -1,0 +1,382 @@
+openapi: 3.0.0
+info:
+  description: |
+    Open API - Tugas Belajar API To Do
+  version: "1.0.0"
+  title: API To Do
+  contact:
+    name: Khomsin
+    email: khomsin.ariseno25@gmail.com
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/RAICHUGO25/ToDoAPI/1.0.0
+  - description: Local Development
+    url: 'localhost:8000/'
+  - description: Production
+    url: 'https://onesira.todoapps.com/v1'
+    variables:
+      versi:
+        default: v1
+        enum:
+          - v1
+          - v2
+tags:
+  - name: user
+    description: Organize Data User
+  - name: todo
+    description: Organize Data To Do
+paths:
+  /register:
+    post:
+      tags:
+        - user
+      summary: Add a New User
+      description: Registering New User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - hp
+                - name
+                - password
+              properties:
+                hp:
+                  type: string
+                name:
+                  type: string
+                password:
+                  type: string
+            example:
+              hp: "089512345678"
+              name: "khomsin"
+              password: "pass123"
+      responses:
+        '201':
+          description: New User Added Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                code: 201
+                message: "selamat data anda sudah terdaftar"
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+  /login:
+    post:
+      tags:
+        - user
+      summary: Login Using HP and Password
+      description: Input Your HP and Password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hp:
+                  type: string
+                password:
+                  type: string
+            example:
+              hp: "089512345678"
+              password: "pass123"
+      responses:
+        '200':
+          description: "Login Successfully"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiDataResponse'
+              example: 
+                code: 200
+                data:
+                  hp: "089512345678"
+                  name: "khomsin"
+                  token: "abogoboga_12sfqQSF008@yuhuu"
+                message: "Login Successfully"
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+  /myprofile:
+    get:
+      tags:
+        - user
+      security:
+        - bearerAuth: []
+      summary: See Your Profile
+      description: See Your Profile Using Token
+      responses:
+        '200':
+          description: "Successfully Get MyProfile"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiDataResponse'
+              example: 
+                code: 200
+                data:
+                  hp: "089512345678"
+                  name: "khomsin"
+                  password: "ZeAgtlUke_z2@Hjasiw111AS"
+                message: "Successfully Get MyProfile"
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+  /allusers:
+    get:
+      tags:
+        - user
+      security:
+        - bearerAuth: []
+      summary: See All Users
+      description: See All Users Using Token
+      responses:
+        '200':
+          description: "Successfully Get All Users"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiDataArrayResponse'
+              example:
+                code: 200
+                data:
+                  - hp: "0895123455678"
+                    name: "khomsin"
+                    password: "ZeAgtlUke_z2@Hjasiw111AS"
+                  - hp: "0895123456789"
+                    name: "ariseno"
+                    password: "1ArExT1Ar@oksl@-$asdwFF"
+                message: "Successfully Get All Users"
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+  /updateuser:
+    put:
+      tags:
+        - user
+      security:
+        - bearerAuth: []
+      summary: Update Data User
+      description: Update Data User Using Token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                password:
+                  type: string
+            example:
+              name: "khomsin"
+              password: "pass123"
+      responses:
+        '200':
+          description: "Update Data Successfully"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example: 
+                code : 200
+                message: "success update user"
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+  /addtask:
+    post:
+      tags:
+        - todo
+      security:
+        - bearerAuth: []
+      summary: Add New Task
+      description: Add New Task Using Token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                taskname:
+                  type: string
+                duedate:
+                  type: string
+                desc:
+                  type: string
+            example:
+              taskname: "mabar pubg mobile"
+              duedate: "nanti malam"
+              desc: "wajib wwcd !!"
+      responses:
+        '201':
+          description: "Task Added Successfully"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiDataResponse'
+              example:
+                code: 201
+                data:
+                  userhp: "089512345678"
+                  taskname: "mabar pubg mobile"
+                  duedate: "nanti malam"
+                  desc: "wajib wwcd !!"
+                message: "success add task"
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+  /updatetask/{todoID}:
+    put:
+      tags:
+        - todo
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: todoID
+          in: path
+          description: ID todo yang ingin di ubah
+          required: true
+          schema:
+            type: string
+          example: 1
+      summary: Update Task
+      description: Update Task Using Token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                taskname:
+                  type: string
+                duedate:
+                  type: string
+                desc:
+                  type: string
+            example:
+              taskname: "mabar pubg mobile"
+              duedate: "nanti malam"
+              desc: "wajib wwcd !!"
+      responses:
+        '200':
+          description: "Task Updated Successfully"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiDataResponse'
+              example:
+                code: 200
+                data:
+                  userhp: "089512345678"
+                  taskname: "mabar pubg mobile"
+                  duedate: "nanti malam"
+                  desc: "wajib wwcd !!"
+                message: "success update task"
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+  /alltask:
+    get:
+      tags:
+        - todo
+      security:
+        - bearerAuth: []
+      summary: See All My Task
+      description: See All My Task Using Token
+      responses:
+        '200':
+          description: "Successfully See All My Task"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiDataArrayResponse'
+              example: 
+                code: 200
+                data:
+                  - userhp: "089512345678"
+                    taskname: "mabar pubg mobile"
+                    duedate: "nanti malam"
+                    desc: "wajib wwcd !!"
+                  - userhp: "089512345678"
+                    taskname: "mabar mobile legend"
+                    duedate: "sehabis main pubg"
+                    desc: "minimal naik mitik"
+                message: "successfully get all task"
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+components:
+  schemas:
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    ApiDataResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        data:
+          type: object
+        message:
+          type: string
+    ApiDataArrayResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int8
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+  responses:
+    '400':
+      description: "input data kurang tepat"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiResponse'
+          example: 
+            code: 400
+            message: "terdapat kesalahan pada data input"
+    '500':
+      description: "server error"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiResponse'
+          example:
+            code: 500
+            message: "terdapat kesalahan pada server"
+  securitySchemes:
+    bearerAuth:            
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

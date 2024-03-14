@@ -1,8 +1,8 @@
-package user
+package handler
 
 type LoginRequest struct {
-	HP       string `json:"hp" form:"hp" validate:"required,max=13,min=10,number"`
-	Password string `json:"password" form:"password" validate:"required,alphanum"`
+	HP       string `json:"hp" form:"hp"`
+	Password string `json:"password" form:"password" `
 }
 
 type RegisterRequest struct {

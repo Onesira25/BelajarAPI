@@ -2,6 +2,8 @@ package middlewares
 
 import (
 	"BelajarAPI/config"
+	"errors"
+	"log"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -20,7 +22,13 @@ func GenerateJWT(hp string) (string, error) {
 	result, err := proccessToken.SignedString([]byte(config.JWTSECRET))
 
 	if err != nil {
-		return "", err
+		defer func() {
+			if err := recover(); err != nil {
+				log.Println("error jwt creation:", err)
+
+			}
+		}()
+		return "", errors.New("terjadi masalah pembuatan token")
 	}
 
 	return result, nil
